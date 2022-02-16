@@ -15,8 +15,16 @@ function calculateBalance() {
     const totalIncomeInput = document.getElementById('input-income');
     const totalIncome = parseFloat(totalIncomeInput.value);
     const totalExpenses = calculateExpenses();
-    const balanceNow = totalIncome - totalExpenses;
-    return balanceNow;
+    if (totalExpenses > totalIncome) {
+        const balanceNow = totalIncome - totalExpenses;
+        document.getElementById('error-expenses').innerText = "Expenses is greater than income!"
+        return balanceNow;
+    } else {
+        const balanceNow = totalIncome - totalExpenses;
+        document.getElementById('error-expenses').innerText = ""
+        return balanceNow;
+    }
+
 }
 
 // calculate saving
@@ -30,15 +38,31 @@ function calculateSaving() {
 
 // calculate balance & expenses
 document.getElementById('button-calculate').addEventListener('click', function () {
-    document.getElementById('total-expenses').innerHTML = calculateExpenses();
-    document.getElementById('balance').innerHTML = calculateBalance();
+    const currentExpenses = calculateExpenses();
+    const balanceNow = calculateBalance();
+    if (currentExpenses > 0) {
+        document.getElementById('total-expenses').innerHTML = currentExpenses;
+        document.getElementById('balance').innerHTML = balanceNow;
+        document.getElementById('error-number').innerText = "";
+    } else {
+        document.getElementById('error-number').innerText = "Please fill all fields, number only!";
+        document.getElementById('total-expenses').innerHTML = '00';
+        document.getElementById('balance').innerHTML = '00';
+    }
 })
 
 // calculate saving & remaining balance
 document.getElementById('saving-calculate').addEventListener('click', function () {
     const balanceNow = calculateBalance();
     const savingAmount = calculateSaving();
-    const remainingBalance = balanceNow - savingAmount;
-    document.getElementById('saving-amount').innerHTML = savingAmount;
-    document.getElementById('remaining-balance').innerHTML = remainingBalance;
+    if (balanceNow > 0 && savingAmount > 0) {
+        const remainingBalance = balanceNow - savingAmount;
+        document.getElementById('saving-amount').innerHTML = savingAmount;
+        document.getElementById('remaining-balance').innerHTML = remainingBalance;
+        document.getElementById('error-saving').innerText = "";
+    } else {
+        document.getElementById('error-saving').innerText = "Need some balance for saving!";
+        document.getElementById('saving-amount').innerHTML = "00";
+        document.getElementById('remaining-balance').innerHTML = "00";
+    }
 })
