@@ -1,0 +1,22 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
+.header h1 {
+    font-size: 32px;
+    color: #31A5AC;
+}
+
+.bugget-form {
+    background: #F8F8F8;
+}
+
+.bugget-image {
+    height: 100%;
+    min-height: 250px;
+    background-image: url(images/budget.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
