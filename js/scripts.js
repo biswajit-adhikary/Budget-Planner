@@ -6,63 +6,67 @@ function calculateExpenses() {
     const rentExpenses = parseFloat(rentExpensesInput.value);
     const clothesExpensesInput = document.getElementById('clothes-expenses');
     const clothesExpenses = parseFloat(clothesExpensesInput.value);
-    const totalExpenses = foodExpenses + rentExpenses + clothesExpenses;
-    return totalExpenses;
+    if (foodExpenses >= 0 && rentExpenses >= 0 && clothesExpenses >= 0) {
+        const totalExpenses = foodExpenses + rentExpenses + clothesExpenses;
+        return totalExpenses;
+    }
 }
+
 
 // calculate balance
 function calculateBalance() {
     const totalIncomeInput = document.getElementById('input-income');
     const totalIncome = parseFloat(totalIncomeInput.value);
     const totalExpenses = calculateExpenses();
-    if (totalExpenses > totalIncome) {
-        const balanceNow = totalIncome - totalExpenses;
-        document.getElementById('error-expenses').innerText = "Expenses is greater than income!"
-        return balanceNow;
-    } else {
-        const balanceNow = totalIncome - totalExpenses;
-        document.getElementById('error-expenses').innerText = ""
-        return balanceNow;
-    }
-
-}
-
-// calculate saving
-function calculateSaving() {
-    const balanceNow = calculateBalance();
-    const savingRateInput = document.getElementById('input-saving');
-    const savingRate = parseFloat(savingRateInput.value);
-    const savingAmount = (balanceNow * savingRate) / 100;
-    return savingAmount;
+    const balanceNow = totalIncome - totalExpenses;
+    return balanceNow;
 }
 
 // calculate balance & expenses
 document.getElementById('button-calculate').addEventListener('click', function () {
     const currentExpenses = calculateExpenses();
     const balanceNow = calculateBalance();
-    if (currentExpenses > 0) {
+    if (currentExpenses > 0 && balanceNow > 0) {
+        document.getElementById('error-number').innerText = "";
         document.getElementById('total-expenses').innerHTML = currentExpenses;
         document.getElementById('balance').innerHTML = balanceNow;
-        document.getElementById('error-number').innerText = "";
     } else {
-        document.getElementById('error-number').innerText = "Please fill all fields, number only!";
-        document.getElementById('total-expenses').innerHTML = '00';
-        document.getElementById('balance').innerHTML = '00';
+        document.getElementById('error-number').innerText = "Input positive number and income should be higher than expenses!";
+        document.getElementById('total-expenses').innerHTML = 0;
+        document.getElementById('balance').innerHTML = 0;
+        return;
     }
+
 })
+
+
+// calculate saving
+function calculateSaving() {
+    const balanceNow = calculateBalance();
+    const savingRateInput = document.getElementById('input-saving');
+    const savingRate = parseFloat(savingRateInput.value);
+    if (savingRate > 0 && savingRate <= 100) {
+        document.getElementById('error-saving').innerText = "";
+        const savingAmount = (balanceNow * savingRate) / 100;
+        return savingAmount;
+    } else {
+        document.getElementById('error-saving').innerText = "Saving rate should be positive number between 1 - 100!";
+        return;
+    }
+}
+
 
 // calculate saving & remaining balance
 document.getElementById('saving-calculate').addEventListener('click', function () {
     const balanceNow = calculateBalance();
     const savingAmount = calculateSaving();
-    if (balanceNow > 0 && savingAmount > 0) {
-        const remainingBalance = balanceNow - savingAmount;
+    const remainingBalance = balanceNow - savingAmount;
+    if (savingAmount > 0 && balanceNow > 0) {
         document.getElementById('saving-amount').innerHTML = savingAmount;
         document.getElementById('remaining-balance').innerHTML = remainingBalance;
-        document.getElementById('error-saving').innerText = "";
     } else {
-        document.getElementById('error-saving').innerText = "Need some balance for saving!";
-        document.getElementById('saving-amount').innerHTML = "00";
-        document.getElementById('remaining-balance').innerHTML = "00";
+        document.getElementById('saving-amount').innerHTML = 0;
+        document.getElementById('remaining-balance').innerHTML = 0;
+        return;
     }
 })
