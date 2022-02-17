@@ -3,6 +3,10 @@ body {
     font-weight: 500;
 }
 
+input {
+    background-color: #dddddd !important;
+}
+
 .header h1 {
     font-size: 32px;
     color: #31A5AC;
