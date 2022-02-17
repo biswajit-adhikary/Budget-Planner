@@ -19,7 +19,7 @@ document.getElementById('button-calculate').addEventListener('click', function (
         const clothesExpenses = parseFloat(clothesExpensesInput.value);
         if (foodExpenses >= 0 && rentExpenses >= 0 && clothesExpenses >= 0) {
             const totalCost = foodExpenses + rentExpenses + clothesExpenses;
-            if (totalCost < income) {
+            if (totalCost <= income) {
                 // Get Balance
                 const balanceNow = income - totalCost;
                 // Update balance & expenses
